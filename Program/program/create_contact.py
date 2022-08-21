@@ -33,6 +33,7 @@ class Test_login:
         sleep(7)
         self.contact = ContactPage(self.driver)
         self.rows = XLUtils.getRowCount(self.path, self.sheetName)
+        Done = False
 
         for r in range(2, self.rows+1):
             self.contact.clickCreate()
@@ -40,11 +41,10 @@ class Test_login:
 
             if XLUtils.readData(self.path, self.sheetName, r, 1) != None:
                 self.company_name = XLUtils.readData(self.path, self.sheetName, r, 1)
+                if XLUtils.readData(self.path, self.sheetName, r+1, 1) == None:
+                    Done = True
             else:
-                self.contact.clickContact()
-                sleep(1)
-                self.contact.enterDone()
-                break
+                self.company_name = ''
 
             if XLUtils.readData(self.path, self.sheetName, r, 2) != None:
                 self.street = XLUtils.readData(self.path, self.sheetName, r, 2)
@@ -113,6 +113,9 @@ class Test_login:
 
             self.contact.clickContact()
             sleep(2)
+            if Done == True:
+                self.contact.enterDone()
+                break
             self.contact.refreshPage()
             sleep(2)
 
