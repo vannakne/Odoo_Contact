@@ -7,8 +7,6 @@ from Program.pageObjects.LoginPage import LoginPage
 
 class Test_login:
     url = "https://edu-mkit.odoo.com/web#action=462&model=res.partner&view_type=kanban&cids=1&menu_id=310"
-    # email_login = "chom.sreyne19@gmail.com"
-    # password = "MK!T@Sreyne2022"
     with open('../../Email_Password.txt') as file:
         email_login = file.readline()
         password = file.readline()
@@ -16,7 +14,7 @@ class Test_login:
     print(email_login)
     print(password)
 
-    path = '../../excel/Autofill_info.xlsx'
+    path = '../../excel/Contact.xlsx'
     sheetName = 'Sheet1'
 
 
@@ -35,20 +33,63 @@ class Test_login:
         sleep(7)
         self.contact = ContactPage(self.driver)
         self.rows = XLUtils.getRowCount(self.path, self.sheetName)
+
         for r in range(2, self.rows+1):
             self.contact.clickCreate()
             sleep(3)
 
-            self.company_name = XLUtils.readData(self.path, self.sheetName, r, 1)
-            self.street = XLUtils.readData(self.path, self.sheetName, r, 2)
-            self.city = XLUtils.readData(self.path, self.sheetName, r, 3)
-            self.country = XLUtils.readData(self.path, self.sheetName, r, 4)
-            self.phone = XLUtils.readData(self.path, self.sheetName, r, 5)
-            self.email = XLUtils.readData(self.path, self.sheetName, r, 6)
-            self.weblink = XLUtils.readData(self.path, self.sheetName, r, 7)
-            self.tag = XLUtils.readData(self.path, self.sheetName, r, 8)
-            self.salePerson = XLUtils.readData(self.path, self.sheetName, r, 9)
-            self.note = XLUtils.readData(self.path, self.sheetName, r, 10)
+            if XLUtils.readData(self.path, self.sheetName, r, 1) != None:
+                self.company_name = XLUtils.readData(self.path, self.sheetName, r, 1)
+            else:
+                self.contact.clickContact()
+                sleep(1)
+                self.contact.enterDone()
+                break
+
+            if XLUtils.readData(self.path, self.sheetName, r, 2) != None:
+                self.street = XLUtils.readData(self.path, self.sheetName, r, 2)
+            else:
+                self.street = ''
+
+            if XLUtils.readData(self.path, self.sheetName, r, 3) != None:
+                self.city = XLUtils.readData(self.path, self.sheetName, r, 3)
+            else:
+                self.city = ''
+
+            if XLUtils.readData(self.path, self.sheetName, r, 4) != None:
+                self.country = XLUtils.readData(self.path, self.sheetName, r, 4)
+            else:
+                self.country = ''
+
+            if XLUtils.readData(self.path, self.sheetName, r, 5) != None:
+                 self.phone = XLUtils.readData(self.path, self.sheetName, r, 5)
+            else:
+                self.phone = ''
+
+            if XLUtils.readData(self.path, self.sheetName, r, 6) != None:
+                self.email = XLUtils.readData(self.path, self.sheetName, r, 6)
+            else:
+                self.email = ''
+
+            if XLUtils.readData(self.path, self.sheetName, r, 7) != None:
+                self.weblink = XLUtils.readData(self.path, self.sheetName, r, 7)
+            else:
+                self.weblink = ''
+
+            if XLUtils.readData(self.path, self.sheetName, r, 8) != None:
+                self.tag = XLUtils.readData(self.path, self.sheetName, r, 8)
+            else:
+                self.tag = ''
+
+            if XLUtils.readData(self.path, self.sheetName, r, 9) != None:
+                self.salePerson = XLUtils.readData(self.path, self.sheetName, r, 9)
+            else:
+                self.salePerson = ''
+
+            if XLUtils.readData(self.path, self.sheetName, r, 10) != None:
+                self.note = XLUtils.readData(self.path, self.sheetName, r, 10)
+            else:
+                self.note = ''
 
             self.contact.enterCompanyName(self.company_name)
             self.contact.enterStreet(self.street)

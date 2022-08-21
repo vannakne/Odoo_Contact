@@ -7,6 +7,8 @@ from pynput.keyboard import Key, Controller
 
 
 class ContactPage:
+    textbox_search_class = "o_searchview_input"
+
     keyboard = Controller()
     button_contact_logo_xpath = "/html/body/header/nav/a[2]"
     button_create_xpath = "/html/body/div[3]/div/div[1]/div[2]/div[1]/div/div/button"
@@ -97,5 +99,8 @@ class ContactPage:
     def refreshPage(self):
         self.driver.refresh()
         sleep(2)
+
+    def enterDone(self):
+        self.driver.find_element(By.CLASS_NAME, self.textbox_search_class).send_keys("DONE !!!")
 
 
